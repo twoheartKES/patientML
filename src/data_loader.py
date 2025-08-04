@@ -4,6 +4,10 @@
 이 모듈은 scikit-learn의 당뇨병 데이터셋을 로딩하고,
 머신러닝 모델 학습에 적합하도록 전처리하는 기능을 제공합니다.
 
+scikit-learn:
+파이썬으로 작성된 머신러닝 라이브러리로, 데이터 마이닝과 데이터 분석을 위한 다양한 도구들을 제공
+다양한 알고리즘과 도구를 제공하여 데이터 전처리, 모델 구축, 평가, 선택 등의 과정을 효율적으로 수행할 수 있게 해줌
+
 주요 기능:
 - 당뇨병 데이터셋 로딩
 - 데이터 탐색 및 기본 통계 정보 출력
@@ -50,7 +54,7 @@ class DiabetesDataLoader:
         """
         scikit-learn에서 당뇨병 데이터셋을 로딩합니다.
         
-        당뇨병 데이터셋은 442명의 당뇨병 환자에 대한 10개의 특성과
+        당뇨병 데이터셋은 442명의 당뇨병 환자에 대한 10개의 특성(age, bmi, pb...등)과
         당뇨병 진행 정도를 나타내는 타겟 변수로 구성되어 있습니다.
         
         반환값:
@@ -65,6 +69,13 @@ class DiabetesDataLoader:
         self.data = diabetes.data
         self.target = diabetes.target
         self.feature_names = diabetes.feature_names
+
+        """
+        diabetes.data      # ← 442명 전체의 10가지 특성 값들 (442 × 10 배열)
+        diabetes.target    # ← 442명 전체의 당뇨병 진행도 값들 (442 × 1 배열)
+        diabetes.feature_names # ← 10가지 특성의 이름들 (단순 리스트, 크기: 10)
+        """
+        
         
         print(f"데이터셋 로딩 완료!")
         print(f"특성 개수: {self.data.shape[1]}")
@@ -173,6 +184,10 @@ class DiabetesDataLoader:
         print(f"테스트 세트 크기: {self.X_test.shape}")
         
         # 특성 스케일링 (선택사항)
+        """
+        특성 스케일링은 각기 다른 단위를 갖는 특성들(age, bmi, bp 등)의 값 범위를 맞춰주는 전처리 과정이며, 모델이 모든 특성을 고르게 고려하도록 돕는 핵심 작업 
+        ex) age, pb 는 19-60세란 범위 80-180이란 범위를 가지기에 더 비중이 있는 값으로 적용될 수 있기 때문
+        """
         if scale_features:
             print("특성 스케일링 적용 중...")
             self.X_train = self.scaler.fit_transform(self.X_train)
@@ -187,6 +202,12 @@ class DiabetesDataLoader:
         
         반환값:
         dict: 데이터 요약 정보
+
+        모델 학습 및 평가를 위한 데이터 분할 확인
+        머신러닝에서는 데이터를 **훈련용(train)**과 **테스트용(test)**으로 나누는 것이 기본입니다.
+        train: 모델을 **학습**시키는 데 사용
+        test: 학습된 모델이 얼마나 잘 작동하는지 **평가**하는 데 사용
+
         """
         if self.data is None:
             return {"error": "데이터가 로딩되지 않았습니다."}
@@ -210,7 +231,8 @@ class DiabetesDataLoader:
 
 # 사용 예시
 if __name__ == "__main__":
-    # 데이터 로더 인스턴스 생성
+    # 데이터 로더 인스턴스 생성 
+    # 전체 데이터 중 80%는 학습용, 20%는 테스트용으로 나눕니다.
     data_loader = DiabetesDataLoader(test_size=0.2, random_state=42)
     
     # 데이터 로딩
