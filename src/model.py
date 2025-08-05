@@ -129,8 +129,8 @@ class DiabetesLinearRegression:
         - MAE (평균 절대 오차): 예측 오차의 절댓값 평균 (낮을수록 좋음)
         
         매개변수:
-        X_test (array-like): 테스트 특성 데이터
-        y_test (array-like): 테스트 타겟 데이터
+        X_test (array-like): 테스트 특성 데이터 (당뇨병에 성별, bmi, pb와 같은 특성이 얼만큼 영향을 주는지 )
+        y_test (array-like): 테스트 타겟 데이터 (반대로 당뇨병 걸릴 예측을 특성을 통해 파악하려함 )
         
         반환값:
         dict: 평가 지표들을 담은 딕셔너리

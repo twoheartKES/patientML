@@ -6,6 +6,7 @@
 
 실행 방법:
 python main.py
+
 """
 
 import sys
@@ -39,10 +40,13 @@ def main():
     
     try:
         # 1. 모델 트레이너 초기화 및 전체 파이프라인 실행
+        # 전체 데이터 중에서 20%를 테스트용 데이터로 분할 ,나머지 80%는 훈련(train)용
         print("\n1단계: 모델 트레이너 초기화")
         trainer = DiabetesModelTrainer(test_size=0.2, random_state=42)
-        
-        print("\n2단계: 전체 학습 파이프라인 실행")
+
+        #"전체 학습 파이프라인 실행" 말의 의미: 전체 머신러닝 흐름을 순차적으로 실행하는 컨트롤러 
+        # 컨트롤러가 train_model()을 내부에서 호출해서 모델(선형 회귀 모델 객체 생성하여) 학습
+        print("\n2단계: 전체 학습 파이프라인 실행 (모델학습)")
         model, training_results, cv_results = trainer.run_complete_pipeline(
             model_name="diabetes_linear_regression_v1"
         )
